@@ -8,7 +8,7 @@ process.env.DISABLE_MOCKED_WARNING = "true";
 jest.mock("next-auth/client");
 const useSessionMocked = mocked(useSession);
 
-describe("SignInButton component", () => {
+describe(":: components :: SignInButton", () => {
   it("renders correctly when user is not authenticated", () => {
     useSessionMocked.mockReturnValueOnce([null, false]);
 

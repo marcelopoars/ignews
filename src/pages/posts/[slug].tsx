@@ -3,7 +3,6 @@ import { getSession } from "next-auth/client";
 import Head from "next/head";
 import { RichText } from "prismic-dom";
 import { getPrismicClient } from "../../services/prismic";
-
 import styles from "./post.module.scss";
 
 interface PostProps {
@@ -44,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const session = await getSession({ req });
   const { slug } = params;
 
-  if (!session.activeSubscription) {
+  if (!session?.activeSubscription) {
     return {
       redirect: {
         destination: "/",

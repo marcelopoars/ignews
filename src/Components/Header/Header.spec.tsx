@@ -20,7 +20,7 @@ jest.mock("next-auth/client", () => {
   };
 });
 
-describe("Header component", () => {
+describe(":: components :: Header", () => {
   it("renders correctly", () => {
     render(<Header />);
 

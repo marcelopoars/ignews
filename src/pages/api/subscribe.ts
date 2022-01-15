@@ -1,8 +1,8 @@
+import { query as q } from "faunadb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
-import { query as q } from "faunadb";
-import { stripe } from "../../services/stripe";
 import { fauna } from "../../services/fauna";
+import { stripe } from "../../services/stripe";
 
 type User = {
   ref: {
@@ -24,22 +24,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let customerId = user.data.stripe_customer_id;
 
     if (!customerId) {
-        const stripeCustomer = await stripe.customers.create({
-          email: session.user.email,
-        });
+      const stripeCustomer = await stripe.customers.create({
+        email: session.user.email,
+      });
 
-        await fauna.query(
-          q.Update(q.Ref(q.Collection("users"), user.ref.id), {
-            data: {
-              stripe_customer_id: stripeCustomer.id,
-            },
-          })
-        );
+      await fauna.query(
+        q.Update(q.Ref(q.Collection("users"), user.ref.id), {
+          data: {
+            stripe_customer_id: stripeCustomer.id,
+          },
+        })
+      );
 
-        customerId = stripeCustomer.id
+      customerId = stripeCustomer.id;
     }
-
-
 
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
       // ID do usuário no Stripe ***

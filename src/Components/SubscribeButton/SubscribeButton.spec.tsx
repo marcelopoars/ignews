@@ -12,7 +12,7 @@ jest.mock("next/router");
 const useSessionMocked = mocked(useSession);
 const useRouterMocked = mocked(useRouter);
 
-describe("SubscribeButton component", () => {
+describe(":: components :: SubscribeButton", () => {
   it("renders correctly", () => {
     useSessionMocked.mockReturnValueOnce([null, false]);
 
@@ -35,28 +35,28 @@ describe("SubscribeButton component", () => {
     expect(signInMocked).toHaveBeenCalled();
   });
 
-  // it("redirects to posts when user already has a subscription", () => {
-  //   const pushMocked = jest.fn();
+  it("redirects to posts when user already has a subscription", () => {
+    const pushMocked = jest.fn();
 
-  //   useSessionMocked.mockReturnValueOnce([
-  //     {
-  //       user: { name: "John Doe", email: "john.doe@example.com" },
-  //       activeSubscription: "fake-active-subscription",
-  //       expires: "fake-expires",
-  //     },
-  //     false,
-  //   ]);
+    useSessionMocked.mockReturnValueOnce([
+      {
+        user: { name: "John Doe", email: "john.doe@example.com" },
+        activeSubscription: "fake-active-subscription",
+        expires: "fake-expires",
+      },
+      false,
+    ]);
 
-  //   useRouterMocked.mockReturnValueOnce({
-  //     push: pushMocked,
-  //   } as any);
+    useRouterMocked.mockReturnValueOnce({
+      push: pushMocked,
+    } as any);
 
-  //   render(<SubscribeButton />);
+    render(<SubscribeButton />);
 
-  //   const subscribeButton = screen.getByText("Subscribe now");
+    const subscribeButton = screen.getByText("Subscribe now");
 
-  //   fireEvent.click(subscribeButton);
+    fireEvent.click(subscribeButton);
 
-  //   expect(pushMocked).toHaveBeenCalledWith('/posts');
-  // });
+    expect(pushMocked).toHaveBeenCalledWith('/posts');
+  });
 });

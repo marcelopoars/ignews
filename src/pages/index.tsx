@@ -1,21 +1,13 @@
-// import { GetServerSideProps } from "next";
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { stripe } from "../services/stripe";
-
 import { SubscribeButton } from "../Components/SubscribeButton";
-
+import { stripe } from "../services/stripe";
 import styles from "./home.module.scss";
-
-// formas de fazer chamadas a API
-// client-side (algo que não precisa estar na página enquanto ela carrega)
-// server-side (SEO, dados dinâmicos, sessão do usuário, tempo real)
-// static site generation (iguais pra todo mundo, SEO)
 
 interface HomeProps {
   product: {
     priceId: string;
-    amount: number;
+    amount: string;
   };
 }
 
@@ -46,11 +38,6 @@ export default function Home({ product }: HomeProps) {
   );
 }
 
-/*
-  Para fazer uma chamada via SERVER SIDE RENDERING,
-  A chamada precisa sempre partir da página para os componente
-*/
-// export const getServerSideProps: GetServerSideProps = async () => {
 export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve("price_1IbDN3KcZqJk9Ngx3WqYGoQd");
 
